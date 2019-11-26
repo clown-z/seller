@@ -1,0 +1,13 @@
+##数据库配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/sell?useUnicode=true&useSSL=false&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: update
+    ##显示数据库语句
+    show-sql: true  
+##
