@@ -1,18 +1,24 @@
 package com.clown.sell;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.clown.sell.domain.OrderDetail;
 import com.clown.sell.dto.OrderDTO;
+import com.clown.sell.enums.OrderStatusEnum;
 import com.clown.sell.service.impl.OrderServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +32,7 @@ public class OrderServiceImplTest {
     private OrderServiceImpl orderService;
     
     private final String BUYER_OPENID = "110110";
+    private final String ORDER_ID = "1575275691361104984";
     
     @Test
     public void testCreate() {
@@ -56,17 +63,26 @@ public class OrderServiceImplTest {
 
     @Test
     public void testFindOne() {
-	fail("尚未实现");
+	OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+	System.out.println("[查询单个订单] orderDTO = " + orderDTO);
+	assertEquals(ORDER_ID, orderDTO.getOrderId());
     }
 
     @Test
     public void testFindList() {
-	fail("尚未实现");
+	PageRequest request = new PageRequest(0, 5);
+	Page<OrderDTO> orderDTOPage = orderService.findList(BUYER_OPENID, request);
+	for (OrderDTO orderDTO : orderDTOPage) {
+	    System.out.println(orderDTO);
+	}
+	Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
     }
 
     @Test
     public void testCancle() {
-	fail("尚未实现");
+	OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+	OrderDTO result = orderService.cancle(orderDTO);
+	Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(), result.getOrderStatus());
     }
 
     @Test

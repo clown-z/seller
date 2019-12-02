@@ -43,7 +43,20 @@ public class ProductServiceImpl implements ProductInfoService {
     }
 
     @Override
+    @Transactional
     public void increaseStock(List<CartDTO> cartDTOList) {
+	for (CartDTO cartDTO : cartDTOList) {
+	    ProductInfo productInfo = piDao.getOne(cartDTO.getProductId());
+	    if(productInfo == null) {
+		throw new SellException(ResultEnum.PRODUCT_NOT_EXIT);
+	    }
+	    
+	    Integer result = productInfo.getProductStock() + cartDTO.getProductQuantity();
+	    
+	    productInfo.setProductStock(result);
+	    
+	    piDao.save(productInfo);
+	}
 	
     }
 
