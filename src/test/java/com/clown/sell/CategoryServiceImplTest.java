@@ -2,7 +2,6 @@ package com.clown.sell;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -47,7 +46,7 @@ public class CategoryServiceImplTest {
 	pc.setCategoryName("类目五");
 	pc.setUpdateTime(new Date());
 	ProductCategory pc2 = cs.save(pc);
-	assertEquals(1, cs.save(pc));
+	assertEquals(1, pc2);
     }
     
     @Test
