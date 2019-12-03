@@ -51,7 +51,7 @@ public class OrderMasterTest {
     
     @Test
     public void findByBuyerOpenid() {
-	PageRequest request = new PageRequest(0, 2);
+	PageRequest request = PageRequest.of(0, 2);
 	Page<OrderMaster> result= mDao.findByBuyerOpenid(ONENID, request);
 	System.out.println(result.getTotalElements());
 	for (OrderMaster orderMaster : result) {

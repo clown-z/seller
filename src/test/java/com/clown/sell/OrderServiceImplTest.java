@@ -1,7 +1,6 @@
 package com.clown.sell;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +69,7 @@ public class OrderServiceImplTest {
 
     @Test
     public void testFindList() {
-	PageRequest request = new PageRequest(0, 5);
+	PageRequest request = PageRequest.of(0, 5);
 	Page<OrderDTO> orderDTOPage = orderService.findList(BUYER_OPENID, request);
 	for (OrderDTO orderDTO : orderDTOPage) {
 	    System.out.println(orderDTO);
