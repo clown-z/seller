@@ -1,7 +1,6 @@
 package com.clown.sell;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.clown.sell.domain.OrderDetail;
 import com.clown.sell.dto.OrderDTO;
 import com.clown.sell.enums.OrderStatusEnum;
+import com.clown.sell.enums.PayStatusEnum;
 import com.clown.sell.service.impl.OrderServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -87,12 +87,16 @@ public class OrderServiceImplTest {
 
     @Test
     public void testFinish() {
-	fail("尚未实现");
+	OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+	OrderDTO result = orderService.finish(orderDTO);
+	Assert.assertEquals(OrderStatusEnum.FINISHED.getCode(), result.getOrderStatus());
     }
 
     @Test
     public void testPaid() {
-	fail("尚未实现");
+	OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+	OrderDTO result = orderService.paid(orderDTO);
+	Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(), result.getPayStatus());
     }
 
 }
