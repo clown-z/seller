@@ -9,9 +9,13 @@ spring:
     hibernate:
       ddl-auto: update
     ##显示数据库语句
-    show-sql: true  
+    show-sql: true
+  jackson:
+    default-property-inclusion: non-null  
 
 server:
   #port: 8090
   servlet:
     context-path: /sell
+
+#

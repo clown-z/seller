@@ -8,6 +8,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
 
 import com.clown.sell.domain.OrderDetail;
+import com.clown.sell.util.serializer.Date2LongSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
 
@@ -15,6 +17,8 @@ import lombok.Data;
 @Data
 @DynamicUpdate
 @Proxy(lazy = false)
+//@JsonSerialize(include =Inclusion.NON_NULL)
+//@JsonInclude(value = Include.NON_NULL)
 public class OrderDTO {
     
     /** 订单id. */
@@ -42,9 +46,11 @@ public class OrderDTO {
     private Integer payStatus;
     
     /** 创建时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
     
     /** 更新时间. */
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
     
     /** 订单详情List. */
