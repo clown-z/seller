@@ -19,3 +19,8 @@ server:
     context-path: /sell
 
 #
+wechat:
+  myAppId:  wx520c15f417810387 #wx97f2fbed21a2ef3d
+  myAppSecret:  20542aa187789e5be9d827b74ae39c44
+  
+  
