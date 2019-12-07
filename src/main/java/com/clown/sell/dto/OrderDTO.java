@@ -8,7 +8,11 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
 
 import com.clown.sell.domain.OrderDetail;
+import com.clown.sell.enums.OrderStatusEnum;
+import com.clown.sell.enums.PayStatusEnum;
+import com.clown.sell.util.EnumUtil;
 import com.clown.sell.util.serializer.Date2LongSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import lombok.Data;
@@ -55,4 +59,14 @@ public class OrderDTO {
     
     /** 订单详情List. */
     List<OrderDetail> orderDetailsList;
+    
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusEnum() {
+	return EnumUtil.getByCode(orderStatus, OrderStatusEnum.class);
+    }
+    
+    @JsonIgnore
+    public PayStatusEnum getPayStatusEnum() {
+	return EnumUtil.getByCode(payStatus, PayStatusEnum.class);
+    }
 }

@@ -28,6 +28,7 @@ import com.clown.sell.enums.PayStatusEnum;
 import com.clown.sell.enums.ResultEnum;
 import com.clown.sell.exception.SellException;
 import com.clown.sell.service.OrderService;
+import com.clown.sell.service.PayService;
 import com.clown.sell.service.ProductInfoService;
 import com.clown.sell.util.KeyUtil;
 
@@ -45,6 +46,9 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private OrderMasterDao orderMasterDao;
+    
+    @Autowired
+    private PayService payService;
     
     @Override
     @Transactional
@@ -168,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
 	
 	//如果已支付，需要退款
 	if (orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
-	    //TODO
+	    payService.refund(orderDTO);
 	}
 	
 	return orderDTO;
@@ -222,6 +226,14 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	return orderDTO;
+    }
+
+    @Override
+    public Page<OrderDTO> findList(Pageable pageable) {
+	Page<OrderMaster> orderMasterPage = orderMasterDao.findAll(pageable);
+	List<OrderDTO> orderDTOList = OrderMaster2OrderDTOConverter.convert(orderMasterPage.getContent());
+	Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(orderDTOList, pageable, orderMasterPage.getTotalElements());
+	return orderDTOPage;
     }
 
 }
