@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.clown.sell.dto.OrderDTO;
+import com.clown.sell.enums.ResultEnum;
 import com.clown.sell.service.OrderService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 卖家端订单
@@ -21,6 +24,7 @@ import com.clown.sell.service.OrderService;
  */
 @Controller
 @RequestMapping("/seller/order")
+@Slf4j
 public class SellerOrderController {
     
     @Autowired
@@ -44,4 +48,22 @@ public class SellerOrderController {
 	map.put("size", size);
 	return new ModelAndView("order/list", map);
     }
+    
+    @GetMapping("cancle")
+    public ModelAndView list(@RequestParam("orderId") String orderId, Map<String, Object> map) {
+	
+	try {
+	    OrderDTO orderDTO = orderService.findOne(orderId);
+	    orderService.cancle(orderDTO);
+	} catch (Exception e) {
+	    log.error("【卖家端取消订单】 发生异常", e);
+	    map.put("msg", e.getMessage());
+	    map.put("url", "/sell/seller/order/list");
+	    return new ModelAndView("common/error", map);
+	}	
+	map.put("msg", ResultEnum.ORDER_CANCLE_SUCCESS.getMessage());
+	map.put("url", "/sell/seller/order/list");
+	return new ModelAndView("common/success");
+    }
+    
 }

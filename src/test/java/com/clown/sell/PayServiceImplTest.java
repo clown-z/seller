@@ -10,11 +10,9 @@ import com.clown.sell.dto.OrderDTO;
 import com.clown.sell.service.OrderService;
 import com.clown.sell.service.PayService;
 
-import lombok.extern.slf4j.Slf4j;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Slf4j
 public class PayServiceImplTest {
 
     @Autowired

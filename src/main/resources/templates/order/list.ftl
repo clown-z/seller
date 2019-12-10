@@ -36,23 +36,40 @@
 								<td>${orderDTO.getPayStatusEnum().message}</td>
 								<td>${orderDTO.createTime}</td>
 								<td>详情</td>
-								<td>取消</td>
+								<td>
+									<#if orderDTO.getOrderStatusEnum().message != "已取消">
+										<a href="sell/seller/order/cancle?orderID=${orderDTO.orderId}">取消</a>
+									</#if>
+								</td>
 							</tr>
 							</#list>
 						</tbody>
 					</table>
 					<ul class="pagination pull-right">
 						<#if currentPage lte 1 >
-						<li class="disabled"><a href="javascript:void(0)">上一页</a></li>
+							<li class="disabled"><a href="javascript:void(0)">上一页</a></li>
 						<#else>
-						<li><a href="list?page=${currentPage - 1}&size=${size}">上一页</a></li>
+							<li><a href="list?page=${currentPage - 1}&size=${size}">上一页</a></li>
 						</#if>
 						<#list 1..orderDTOPage.getTotalPages() as index>
 							<#if currentPage == index>
-							 <li class="disabled"><a  href="javascript:void(0)">${index}</a></li>
+							 	<li class="disabled"><a href="javascript:void(0)">${index}</a></li>
 							<#else>
-							  <li><a href="list?page=${index}&size=${size}">${index}</a></li>
-							</#if>
+								<#if index lte 2 || (index+1) lte orderDTOPage.getTotalPages()>
+									 <li><a href="list?page=${index}&size=${size}">${index}</a></li>
+								</#if>
+								
+								
+								  <#if orderDTOPage.getTotalPages() lte 5> 
+									<li><a href="list?page=${index}&size=${size}">${index}</a></li>
+								<#else>
+									<#if (currentPage+1) == index >
+										<li><span class="text">...</span></li>
+									<#else>
+										<li class="hidden"><span class="text">...</span></li>
+									</#if>
+								</#if>
+							</#if>						
 						</#list>
 						<#if currentPage gte orderDTOPage.getTotalPages() >
 						<li class="disabled"><a href="javascript:void(0)">下一页</a></li>
