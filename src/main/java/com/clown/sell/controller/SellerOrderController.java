@@ -37,7 +37,7 @@ public class SellerOrderController {
      * @param map
      * @return
      */
-    @GetMapping("list")
+    @GetMapping("/list")
     public ModelAndView list(@RequestParam(value = "page", defaultValue = "1") Integer page,
 	    @RequestParam(value = "size", defaultValue = "10") Integer size, 
 	    Map<String, Object> map) {
@@ -49,14 +49,14 @@ public class SellerOrderController {
 	return new ModelAndView("order/list", map);
     }
     
-    @GetMapping("cancle")
+    @GetMapping("/cancle")
     public ModelAndView list(@RequestParam("orderId") String orderId, Map<String, Object> map) {
 	
 	try {
 	    OrderDTO orderDTO = orderService.findOne(orderId);
 	    orderService.cancle(orderDTO);
 	} catch (Exception e) {
-	    log.error("【卖家端取消订单】 发生异常", e);
+	    log.error("【卖家端取消订单】 发生异常{}", e);
 	    map.put("msg", e.getMessage());
 	    map.put("url", "/sell/seller/order/list");
 	    return new ModelAndView("common/error", map);
@@ -65,5 +65,27 @@ public class SellerOrderController {
 	map.put("url", "/sell/seller/order/list");
 	return new ModelAndView("common/success");
     }
+    
+    /**
+     * 订单详情
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @GetMapping("/detail")
+    public ModelAndView detail(@RequestParam("orderId") String orderId, Map<String, Object> map) {
+	OrderDTO orderDTO = new OrderDTO();
+	try {
+	    orderDTO = orderService.findOne(orderId);
+	} catch (Exception e) {
+	    log.error("【卖家端查询订单详情】 发生异常{}", e);
+	    map.put("msg", e.getMessage());
+	    map.put("url", "/sell/seller/order/detail");
+	    return new ModelAndView("common/error", map);
+	}
+	map.put("orderDTO", orderDTO);
+	return new ModelAndView("order/detail");
+    }
+    
     
 }
