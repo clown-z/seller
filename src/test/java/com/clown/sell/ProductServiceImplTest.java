@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotEquals;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.clown.sell.domain.ProductInfo;
+import com.clown.sell.enums.ProductStatusEnum;
 import com.clown.sell.service.impl.ProductServiceImpl;
 
 @RunWith(SpringRunner.class)
@@ -71,5 +73,15 @@ public class ProductServiceImplTest {
 	System.out.println(pi);
     }
     
+    @Test
+    public void onSale() {
+	ProductInfo productInfo = psi.onSale("000001");
+	Assert.assertEquals(ProductStatusEnum.UP, productInfo.getProductStatusEnum());
+    }
     
+    @Test
+    public void offSale() {
+	ProductInfo productInfo = psi.offSale("000001");
+	Assert.assertEquals(ProductStatusEnum.DOWN, productInfo.getProductStatusEnum());
+    }
 }
