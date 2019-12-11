@@ -49,6 +49,12 @@ public class SellerOrderController {
 	return new ModelAndView("order/list", map);
     }
     
+    /**
+     * 取消订单
+     * @param orderId
+     * @param map
+     * @return
+     */
     @GetMapping("/cancle")
     public ModelAndView list(@RequestParam("orderId") String orderId, Map<String, Object> map) {
 	
@@ -80,12 +86,34 @@ public class SellerOrderController {
 	} catch (Exception e) {
 	    log.error("【卖家端查询订单详情】 发生异常{}", e);
 	    map.put("msg", e.getMessage());
-	    map.put("url", "/sell/seller/order/detail");
+	    map.put("url", "/sell/seller/order/list");
 	    return new ModelAndView("common/error", map);
 	}
 	map.put("orderDTO", orderDTO);
 	return new ModelAndView("order/detail");
     }
     
+    /**
+     * 完结订单
+     * @param orderId
+     * @param map
+     * @return
+     */
+    @GetMapping("/finish")
+    public ModelAndView finish(@RequestParam("orderId") String orderId, Map<String, Object> map) {
+	
+	try {
+	    OrderDTO orderDTO = orderService.findOne(orderId);
+	    orderService.finish(orderDTO);
+	} catch (Exception e) {
+	    log.error("【卖家端完结订单】 发生异常{}", e);
+	    map.put("msg", e.getMessage());
+	    map.put("url", "/sell/seller/order/list");
+	    return new ModelAndView("common/error", map);
+	}
+	map.put("msg", ResultEnum.ORDER_FINISH_SUCCESS.getMessage());
+	map.put("url", "/sell/seller/order/list");
+	return new ModelAndView("common/success");
+    }
     
 }

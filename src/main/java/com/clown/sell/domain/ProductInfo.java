@@ -1,17 +1,24 @@
 package com.clown.sell.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
+
+import com.clown.sell.enums.ProductStatusEnum;
+import com.clown.sell.util.EnumUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
 @Entity
 @Data
 @Proxy(lazy = false)
+@DynamicUpdate
 public class ProductInfo {
  
 
@@ -39,5 +46,14 @@ public class ProductInfo {
     /** 类目编号。 */
     private Integer categoryType;
     
+    /**创建时间.*/
+    private Date createTime;
     
+    /**修改时间.*/
+    private Date updateTime;
+    
+    @JsonIgnore
+    public ProductStatusEnum getProductStatusEnum() {
+	return EnumUtil.getByCode(productStatus, ProductStatusEnum.class);
+    }
 }

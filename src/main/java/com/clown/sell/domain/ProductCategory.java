@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.Proxy;
 
 import lombok.Data;
@@ -17,7 +19,7 @@ import lombok.Data;
 @Entity
 @Proxy(lazy = false)
 @Data
-//@DynamicUpdate//动态更新
+@DynamicUpdate//动态更新
 public class ProductCategory {
     
     /**类目id.*/
