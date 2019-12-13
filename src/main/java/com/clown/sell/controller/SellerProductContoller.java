@@ -93,7 +93,7 @@ public class SellerProductContoller {
     }
     
     /**
-     * 
+     * 展示
      * @param productId
      * @param map
      * @return
@@ -144,7 +144,6 @@ public class SellerProductContoller {
 	    BeanUtils.copyProperties(productFrom, productInfo);
 	    productInfo.setCreateTime(CREATE_TIME);
 	    productInfo.setUpdateTime(UPDATE_TIME);
-	    System.out.println(productInfo.toString());
 	    productService.save(productInfo);
 	} catch (Exception e) {
 	    map.put("msg", e.getMessage());
