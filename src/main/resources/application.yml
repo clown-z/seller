@@ -12,6 +12,10 @@ spring:
     show-sql: true
   jackson:
     default-property-inclusion: non-null  
+  redis:
+    host: 127.0.0.1 #192.168.8.102
+    port: 6379
+    password: 
 
 server:
   #port: 8090
@@ -22,9 +26,15 @@ server:
 wechat:
   myAppId:  wxd898fcb01713c658 #wx97f2fbed21a2ef3d
   myAppSecret:  29d8a650db31472aa87800e3b0d739f2 #20542aa187789e5be9d827b74ae39c44
+  openAppId: wxbdc5610cc59c1631
+  openAppSecret: 3d6be0a4035d839573b04816624a415e
   mchId:  1409146202
   mchkey: c976503d34ca432c601361f969fd8d85
   #keyPath: /var/weixin_cert/h5.p12
   notifyUrl: http://clown.com/sell/pay/notify
-  
+
+projecturl:
+  wechatMpAuthorize: http://clown.com
+  wechatOpenAuthorize: http://clown.com
+  sell: http://127.0.0.1:8080
   

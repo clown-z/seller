@@ -2,12 +2,15 @@ package com.clown.sell.controller;
 
 import java.net.URLEncoder;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.clown.sell.config.ProjectUrl;
 import com.clown.sell.enums.ResultEnum;
 import com.clown.sell.exception.SellException;
 
@@ -22,12 +25,18 @@ import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 @Slf4j
 public class WechatController {
     
-    private final static String APPID = "";
-    private final static String SECRET = "";
-    private final static String GRANT_TYPE = "authorization_code";
+    //private final static String APPID = "";
+    //private final static String SECRET = "";
+    //private final static String GRANT_TYPE = "authorization_code";
     
     @Autowired
     private WxMpService wxMpService;
+    
+    @Autowired
+    private WxMpService wxOpenService;
+    
+    @Autowired
+    private ProjectUrl projectUrl;
     
     //手动获取openid
 //    @GetMapping("/auth")
@@ -51,7 +60,7 @@ public class WechatController {
     public String authorize(@RequestParam("returnUrl") String returnUrl) {	
 	//1.配置
 	//2.调用方法
-	String url = "http://clown.com/sell/wechat/userinfo";
+	String url = projectUrl + "/wechat/userinfo";
 	String redirectUrl = wxMpService.oauth2buildAuthorizationUrl(url, WxConsts.OAUTH2_SCOPE_USER_INFO, URLEncoder.encode(returnUrl));
 	log.info("【微信网页授权】 获取code, redirectUrl={}", redirectUrl);
 	
@@ -65,6 +74,31 @@ public class WechatController {
 	 WxMpOAuth2AccessToken wxAuth2AccessToken = new WxMpOAuth2AccessToken();
 	try {
 	    wxAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
+	} catch (WxErrorException e) {	    
+	    log.info("【微信网页授权】 {}", e);
+	    throw new SellException(ResultEnum.WECHAT_MP_ERROR.getCode(), 
+		    e.getError().getErrorMsg());
+	}
+	String openId = wxAuth2AccessToken.getOpenId();
+	
+	return "redirect:" + returnUrl + "?openid=" + openId;
+    }
+    
+    @GetMapping("/qrAuthorize")
+    public String qrAuthorize(@RequestParam("returnUrl") String returnUrl) {	
+	String url = "https://passport.yhd.com/wechat/login.do";
+	String redirectUrl = wxOpenService.buildQrConnectUrl(url, WxConsts.OAUTH2_SCOPE_USER_INFO, URLEncoder.encode(returnUrl));
+	log.info("【微信网页授权】 获取code, redirectUrl={}", redirectUrl);
+	
+	return "redirect:" + redirectUrl;
+    }
+    
+    @GetMapping("/qrUserinfo")
+    public String qrUserinfo(@RequestParam("code") String code, 
+	    @RequestParam("state") String returnUrl) {
+	 WxMpOAuth2AccessToken wxAuth2AccessToken = new WxMpOAuth2AccessToken();
+	try {
+	    wxAuth2AccessToken = wxOpenService.oauth2getAccessToken(code);
 	} catch (WxErrorException e) {	    
 	    log.info("【微信网页授权】 {}", e);
 	    throw new SellException(ResultEnum.WECHAT_MP_ERROR.getCode(), 

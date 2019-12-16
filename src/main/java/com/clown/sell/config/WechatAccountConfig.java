@@ -10,9 +10,25 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "wechat")
 public class WechatAccountConfig {
     
+    /**
+     * 公众平台id
+     */
     private String myAppId;
         
+    /**
+     * 公众平台密钥
+     */
     private String myAppSecret;
+    
+    /**
+     * 开放平台id
+     */
+    private String openAppId;
+    
+    /**
+     * 开放平台密钥
+     */
+    private String openAppSecret;
     
     /**
      * 商户号
