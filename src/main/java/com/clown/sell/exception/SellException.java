@@ -19,5 +19,5 @@ public class SellException extends RuntimeException{
    	super(message);
    	
    	this.code = code;
-       }
+    }
 }
