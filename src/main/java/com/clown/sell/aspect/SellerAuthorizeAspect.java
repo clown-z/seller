@@ -34,7 +34,7 @@ public class SellerAuthorizeAspect {
     
     
     @Pointcut("execution(public * com.clown.sell.controller.Seller*.*(..))"
-	    + "!execution(public * com.clown.sell.controller.SellerUserController.*(..))")
+	    + "&& !execution(public * com.clown.sell.controller.SellerUserController.*(..))")
     public void verify() {
 	
     }
@@ -50,10 +50,11 @@ public class SellerAuthorizeAspect {
 	    log.warn("【登录校验】 Cookie中查不到token");
 	    throw new SellerAuthorizeException();
 	}
+	System.out.println("name" + cookie.getName());
 	
 	//去redis查询
 	String tokenValue = redisTemplate.opsForValue().get(String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
-	System.out.println("ss: "+String.format(RedisConstant.TOKEN_PREFIX, cookie.getValue()));
+	System.out.println("ss: "+ tokenValue);
 	if (StringUtils.isEmpty(tokenValue)) {
 	    log.warn("【登录校验】 Redis中查不到token");
 	    throw new SellerAuthorizeException();

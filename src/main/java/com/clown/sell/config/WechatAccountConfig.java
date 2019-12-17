@@ -1,5 +1,7 @@
 package com.clown.sell.config;
 
+import java.util.Map;
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -51,4 +53,9 @@ public class WechatAccountConfig {
      * 微信支付异步通知地址
      */
     private String notifyUrl;
+    
+    /**
+     * 微信模板Id
+     */
+    private Map<String, String> templateId;
 }

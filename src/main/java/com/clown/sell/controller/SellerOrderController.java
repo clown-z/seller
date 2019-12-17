@@ -90,6 +90,7 @@ public class SellerOrderController {
 	    return new ModelAndView("common/error", map);
 	}
 	map.put("orderDTO", orderDTO);
+	System.out.println("【orderDTO:】" + orderDTO);
 	return new ModelAndView("order/detail");
     }
     

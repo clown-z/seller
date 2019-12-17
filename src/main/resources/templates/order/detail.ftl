@@ -42,7 +42,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <#list orderDTO.orderDetailList as orderDetail>
+                        <#list orderDTO.orderDetailsList as orderDetail>
                         <tr>
                             <td>${orderDetail.productId}</td>
                             <td>${orderDetail.productName}</td>

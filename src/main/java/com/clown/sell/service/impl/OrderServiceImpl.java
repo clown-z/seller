@@ -30,6 +30,7 @@ import com.clown.sell.exception.SellException;
 import com.clown.sell.service.OrderService;
 import com.clown.sell.service.PayService;
 import com.clown.sell.service.ProductInfoService;
+import com.clown.sell.service.PushMessage;
 import com.clown.sell.util.KeyUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,9 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private PayService payService;
+    
+    @Autowired
+    private PushMessage pushMessage;
     
     @Override
     @Transactional
@@ -196,6 +200,9 @@ public class OrderServiceImpl implements OrderService {
 	    log.error("【完结订单】更新失败， orderMaster={}", orderMaster);
 	    throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
 	}
+	
+	//推送微信模板消息
+	pushMessage.orderStatus(orderDTO);
 	
 	return orderDTO;
     }

@@ -16,13 +16,11 @@ public class SellExceptionHandler {
     
     //拦截登录异常
     //http://127.0.0.1:8080/sell/seller/login?openid=abc
-    @ExceptionHandler(value = SellerAuthorizeException.class)
-    public ModelAndView handlerAuthrizeException() {
-	return new ModelAndView("redirect:"
-		.concat(projectUrl.getSell())
-		//.concat("/sell/wechat/qrAuthrize")
-		//.concat("?returnUrl")
-		.concat("/sell/seller/login?openid=token_abc"));
-		
-    }
+    /*
+     * @ExceptionHandler(value = SellerAuthorizeException.class) public ModelAndView
+     * handlerAuthrizeException() { return new ModelAndView("redirect:"
+     * .concat(projectUrl.getSell()) //.concat("/sell/wechat/qrAuthrize")
+     * //.concat("?returnUrl")
+     * .concat("/sell/seller/login?openid=oFJZSwP2jK-aI1yocLv7E64ayn3k	")); }
+     */
 }
