@@ -31,6 +31,7 @@ import com.clown.sell.service.OrderService;
 import com.clown.sell.service.PayService;
 import com.clown.sell.service.ProductInfoService;
 import com.clown.sell.service.PushMessage;
+import com.clown.sell.service.Websocket;
 import com.clown.sell.util.KeyUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,9 @@ public class OrderServiceImpl implements OrderService {
     
     @Autowired
     private PushMessage pushMessage;
+    
+    @Autowired
+    private Websocket webSocket;
     
     @Override
     @Transactional
@@ -106,6 +110,9 @@ public class OrderServiceImpl implements OrderService {
 		.map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()))
 		.collect(Collectors.toList());
 	productInfoService.decreaseStock(cartDTOList);
+	
+	//发送webSocket消息
+	webSocket.sendMessage("有新的订单");
 	return orderDTO;
     }
 

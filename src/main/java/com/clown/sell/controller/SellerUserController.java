@@ -42,8 +42,9 @@ public class SellerUserController {
 	    HttpServletResponse response, 
 	    Map<String , Object> map) {
 	
-	//1.openid去和数据库里的数据匹配
+	//1.openid去和数据库里的数据匹配	
 	SellerInfo sellerInfo = sellerService.findSellerInfoByOpenid(openid);
+	System.out.println("【sellerInfo】： " + sellerInfo);
 	if (sellerInfo == null) {
 	    map.put("msg", ResultEnum.LOGIN_FAIL.getMessage());
 	    map.put("url", "/sell/seller/order/list");
