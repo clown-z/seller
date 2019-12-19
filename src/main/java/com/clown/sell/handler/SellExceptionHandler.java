@@ -3,10 +3,14 @@ package com.clown.sell.handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.clown.sell.config.ProjectUrl;
+import com.clown.sell.exception.SellException;
 import com.clown.sell.exception.SellerAuthorizeException;
+import com.clown.sell.util.ResultVOUtil;
+import com.clown.sell.vo.ResultVO;
 
 @ControllerAdvice
 public class SellExceptionHandler {
@@ -23,4 +27,10 @@ public class SellExceptionHandler {
      * //.concat("?returnUrl")
      * .concat("/sell/seller/login?openid=oFJZSwP2jK-aI1yocLv7E64ayn3k	")); }
      */
+    
+     @ExceptionHandler(value = {SellException.class})
+     @ResponseBody
+     public ResultVO handlerSellerException(SellException e) {
+	 return ResultVOUtil.error(e.getCode(), e.getMessage());
+     }
 }

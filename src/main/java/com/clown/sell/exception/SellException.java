@@ -4,6 +4,7 @@ import com.clown.sell.enums.ResultEnum;
 
 import lombok.Getter;
 
+@SuppressWarnings("serial")
 @Getter
 public class SellException extends RuntimeException{
     
