@@ -25,7 +25,7 @@ public class SellExceptionHandler {
      * handlerAuthrizeException() { return new ModelAndView("redirect:"
      * .concat(projectUrl.getSell()) //.concat("/sell/wechat/qrAuthrize")
      * //.concat("?returnUrl")
-     * .concat("/sell/seller/login?openid=oFJZSwP2jK-aI1yocLv7E64ayn3k	")); }
+     * .concat("/sell/seller/login?openid=oFJZSwP2jK-aI1yocLv7E64ayn3k")); }
      */
     
      @ExceptionHandler(value = {SellException.class})

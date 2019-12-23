@@ -23,6 +23,16 @@ server:
     context-path: /sell
 
 #
+mybatis:
+  #type-aliases-package: com.clown.sell.domain
+  mapper-locations:
+  - classpath:mapper/*Mapper.xml
+  
+logging:
+  level:
+    com.clown.sell.domain.mapper: trace
+
+#微信
 wechat:
   myAppId:  wx938244498af78ce8 #wx97f2fbed21a2ef3d
   myAppSecret:  937ca847d392bf97df0e50ef3115842a #20542aa187789e5be9d827b74ae39c44
@@ -35,6 +45,7 @@ wechat:
   templateId:
     orderStatus: lR_GMt4zFt5zvwVUbqOepPJY3QzHRnKrTt5hGTNQQMM
 
+#项目URL链接
 projecturl:
   wechatMpAuthorize: http://clown.com
   wechatOpenAuthorize: http://clown.com
