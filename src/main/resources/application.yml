@@ -26,6 +26,7 @@ server:
 mybatis:
   #type-aliases-package: com.clown.sell.domain
   mapper-locations:
+  #mapper文件的路径
   - classpath:mapper/*Mapper.xml
   
 logging:
