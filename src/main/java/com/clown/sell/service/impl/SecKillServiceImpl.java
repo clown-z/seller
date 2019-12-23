@@ -3,15 +3,22 @@ package com.clown.sell.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.clown.sell.exception.SellException;
+import com.clown.sell.service.RedisLock;
 import com.clown.sell.service.SecKillService;
 import com.clown.sell.util.KeyUtil;
 
 
 @Service
 public class SecKillServiceImpl implements SecKillService{
+    
+    private static final int TIMEOUT = 10 * 1000; //超时时间
+    
+    @Autowired
+    private RedisLock redisLock;
 
     /**
      * XX活动，皮蛋粥特价，限量10000份
@@ -44,7 +51,13 @@ public class SecKillServiceImpl implements SecKillService{
     }
 
     @Override
-    public synchronized void orderProductMockDiffUser(String productId) {
+    public void orderProductMockDiffUser(String productId) {
+	//加锁
+	long time = System.currentTimeMillis() + TIMEOUT;
+	if (!redisLock.lock(productId, String.valueOf(time))){
+	    throw new SellException(101, "哎哟喂，人也太多了，换个姿势再试试~~~");
+	}
+	
 	//1.查询该商品库存，为0则活动结束
 	int stockNum = stock.get(productId);
 	if (stockNum == 0) {
@@ -61,6 +74,9 @@ public class SecKillServiceImpl implements SecKillService{
 	    }
 	    stock.put(productId, stockNum);
 	}
+	
+	//解锁
+	redisLock.unlock(productId, String.valueOf(time));
     }
 
 }
