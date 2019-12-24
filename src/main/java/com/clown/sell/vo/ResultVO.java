@@ -1,5 +1,7 @@
 package com.clown.sell.vo;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 /**
@@ -8,8 +10,13 @@ import lombok.Data;
  *
  */
 @Data
-public class ResultVO<T> {
+public class ResultVO<T> implements Serializable{
     
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4491658154414142525L;
+
     /** 错误码.*/
     private Integer code;
     

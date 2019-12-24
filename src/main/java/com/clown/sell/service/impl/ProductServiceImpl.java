@@ -3,6 +3,9 @@ package com.clown.sell.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,17 +20,19 @@ import com.clown.sell.exception.SellException;
 import com.clown.sell.service.ProductInfoService;
 
 @Service
+//@CacheConfig(cacheNames = "product")
 public class ProductServiceImpl implements ProductInfoService {
 
     @Autowired
     private ProductInfoDao piDao;
     
-    @Override
+    @Override  
     public ProductInfo findOne(String productId) {
 	return piDao.getOne(productId);
     }
     
     @Override
+    //@Cacheable(key = "332")
     public List<ProductInfo> findUpAll() {
 	return piDao.findByProductStatus(ProductStatusEnum.UP.getCode());
     }
@@ -38,6 +43,7 @@ public class ProductServiceImpl implements ProductInfoService {
     }
 
     @Override
+    //@CachePut(key = "332")
     public ProductInfo save(ProductInfo productInfo) {
 	return piDao.save(productInfo);
     }
